@@ -2,6 +2,11 @@
 <resources>
     <string name="app_name">Political Preparedness</string>
     <string name="ballot_logo">Ballot Logo image</string>
+    <string name="strUpcomingElections">UPCOMING ELECTIONS</string>
+    <string name="strFindMyRep">FIND MY REPRESENTATIVES</string>
+    <string name="str_election_info">Election Information</string>
+    <string name="str_voting_location">Voting Locations</string>
+    <string name="str_ballot_information">Ballot Information</string>
 
     <!-- TODO: Add necessary string values -->
 

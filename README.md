@@ -52,3 +52,6 @@ Notice any issues with a repository? Please file a github issue in the repositor
 Steps to get APiKey:
 1) https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279 (Create the APi KEy)
 2) https://console.cloud.google.com/apis/library/civicinfo.googleapis.com (Enable the google civic API)
+
+//Remove APIKey from CivicService
+//Remove all TODO

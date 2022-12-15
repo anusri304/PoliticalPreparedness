@@ -38,5 +38,5 @@ abstract class ElectionDatabase: RoomDatabase() {
         }
 
     }
-
+    fun getAll() = electionDao.getAll()
 }
