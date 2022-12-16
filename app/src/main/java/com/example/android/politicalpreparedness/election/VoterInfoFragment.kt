@@ -14,7 +14,7 @@ class VoterInfoFragment : Fragment() {
             "You can only access the viewModel after onViewCreated()"
         }
         // ViewModelProvider(this).get(MainViewModel::class.java)
-        ViewModelProvider(this,VoterInfoViewModelFactory()).get(VoterInfoViewModel::class.java)
+        ViewModelProvider(this,VoterInfoViewModelFactory(activity.application)).get(VoterInfoViewModel::class.java)
 
 
     }
