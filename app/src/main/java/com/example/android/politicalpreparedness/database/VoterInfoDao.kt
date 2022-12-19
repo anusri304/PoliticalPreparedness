@@ -7,21 +7,15 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.android.politicalpreparedness.network.models.Election
+import com.example.android.politicalpreparedness.network.models.VoterInfo
 
 @Dao
-interface ElectionDao {
-    //TODO: Add insert query
+interface VoterInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(election: List<Election>)
+    fun insert(voterInfo: VoterInfo)
 
-    //TODO: Add select all election query
-    @Query("SELECT * FROM election_table")
-    fun getAll():List<Election>
+    @Query("SELECT * FROM voter_info WHERE id = :id")
+    fun get(id: Int) : VoterInfo
 
-    //TODO: Add select single election query
-
-    //TODO: Add delete query
-
-    //TODO: Add clear query
 
 }
