@@ -55,7 +55,7 @@ class VoterInfoViewModel(application: Application) : ViewModel() {
     private fun saveVoterInfo(election: Election) {
         viewModelScope.launch {
             try {
-                val MOCK_STATE = "la"
+                val MOCK_STATE = "ks"
                 val state =
                     if (election.division.state.isEmpty()) MOCK_STATE else election.division.state
                 val address = "${state},${election.division.country}"
