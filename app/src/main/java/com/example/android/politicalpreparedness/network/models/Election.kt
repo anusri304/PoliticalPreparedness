@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.*
 import com.squareup.moshi.*
 import kotlinx.android.parcel.Parcelize
+import kotlinx.serialization.Required
 import java.util.*
 
 @Entity(tableName = "election_table")
@@ -11,6 +12,8 @@ import java.util.*
 data class Election(
         @PrimaryKey val id: Int,
         @ColumnInfo(name = "name")val name: String,
+        @ColumnInfo(name = "isFollowed")
+        var isFollowed: Boolean,
         @ColumnInfo(name = "electionDay")val electionDay: Date,
         @Embedded(prefix = "division_") @Json(name="ocdDivisionId") val division: Division
 ): Parcelable

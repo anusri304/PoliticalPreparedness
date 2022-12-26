@@ -9,14 +9,16 @@ import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.VoterInfo
+import com.example.android.politicalpreparedness.repository.ElectionRepository
 import com.example.android.politicalpreparedness.repository.VoterInfoRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class VoterInfoViewModel(application: Application) : ViewModel() {
     private val database = ElectionDatabase.getInstance(application)
     private val voterInfoRepository = VoterInfoRepository(CivicsApi, database)
+
+    private val electionRepository =
+        ElectionRepository(CivicsApi, database, application.applicationContext)
     //TODO: Add live data to hold voter info
 
     //TODO: Add var and methods to populate voter info
@@ -38,17 +40,20 @@ class VoterInfoViewModel(application: Application) : ViewModel() {
     val voterInfo: LiveData<VoterInfo>
         get() = _voterInfo
 
+    private val _isElectionFollowed = MutableLiveData<Boolean?>()
+    val isElectionFollowed: LiveData<Boolean?>
+        get() = _isElectionFollowed
 
-    fun displayElectionInfo(data: Election) {
-        _selectedElection.value = data
-        saveVoterInfo(data)
 
-
+    fun displayElectionInfo(election: Election) {
+        _selectedElection.value = election
+        checkIfElectionSaved(election)
+        saveVoterInfo(election)
     }
 
     private fun loadVoterInfo(id: Int) {
         viewModelScope.launch {
-            _voterInfo.value= voterInfoRepository.getVoterInfo(id)
+            _voterInfo.value = voterInfoRepository.getVoterInfo(id)
         }
     }
 
@@ -67,4 +72,32 @@ class VoterInfoViewModel(application: Application) : ViewModel() {
         }
     }
 
+    fun onFollowButtonClick() {
+        viewModelScope.launch {
+            selectedElection.value?.let {
+                if (isElectionFollowed.value == true) {
+                    it.isFollowed = false
+                    electionRepository.updateElection(it)
+                } else {
+                    it.isFollowed = true
+                    electionRepository.updateElection(it)
+                }
+                checkIfElectionSaved(it)
+            }
+        }
+
+    }
+
+    fun checkIfElectionSaved(election: Election) {
+        viewModelScope.launch {
+            try {
+                var existingElection: Election? = electionRepository.getElection(election)
+                _isElectionFollowed.postValue(existingElection?.isFollowed)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
 }

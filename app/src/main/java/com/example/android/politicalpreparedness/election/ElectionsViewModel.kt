@@ -9,7 +9,9 @@ import com.example.android.politicalpreparedness.database.ElectionDatabase.Compa
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.repository.ElectionRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 //TODO: Construct ViewModel and provide election datasource
 class ElectionsViewModel(application: Application): ViewModel() {
@@ -22,6 +24,7 @@ class ElectionsViewModel(application: Application): ViewModel() {
 
     val upcomingElections: LiveData<List<Election>>
         get() = _upcomingElections
+
 
     private val _navigateToSelectedElection = MutableLiveData<Election>()
 
@@ -37,14 +40,23 @@ class ElectionsViewModel(application: Application): ViewModel() {
                 println("  _upcomingElections.value"+ _upcomingElections.value!!.size)
             }
             catch (e:Exception) {
-
+               e.stackTrace
             }
         }
     }
 
+    val followedElections = electionRepository.followedElection
+
+
     fun displayElection(election: Election) {
         _navigateToSelectedElection.value = election
     }
+
+//     fun displayFollowedElection(){
+//        viewModelScope.launch {
+//            _followedElections.value = electionRepository.getFollowedElection(true)
+//        }
+//    }
 
     fun displayElectionComplete() {
         _navigateToSelectedElection.value = null

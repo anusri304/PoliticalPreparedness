@@ -54,7 +54,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/voting_location_text"
-            app:clickableText="@{viewModel.voterInfo.votingLocationUrl}"
             android:textSize="@dimen/default_text_size"
             app:layout_constraintTop_toBottomOf="@id/state_header"
             app:layout_constraintStart_toStartOf="@id/election_date" />
@@ -67,7 +66,6 @@
             android:layout_marginTop="@dimen/default_padding"
             android:layout_height="wrap_content"
             android:text="@string/ballot_information_text"
-            app:clickableText = "@{viewModel.voterInfo.ballotInformationUrl}"
             android:textSize="@dimen/default_text_size"
             app:layout_constraintTop_toBottomOf="@id/state_locations"
             app:layout_constraintStart_toStartOf="@id/election_date" />
@@ -95,6 +93,19 @@
 <!--            app:layout_constraintStart_toStartOf="@id/election_date" />-->
 
         <!-- TODO: Add button to save election to Room -->
+
+        <Button
+            android:id="@+id/followButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:onClick="@{() -> viewModel.onFollowButtonClick()}"
+            app:toggleButtonText="@{viewModel.isElectionFollowed}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

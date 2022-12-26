@@ -43,6 +43,12 @@ abstract class ElectionDatabase : RoomDatabase() {
     }
 
     fun getAll() = electionDao.getAll()
-    fun insert(voterInfo: VoterInfo) = voterInfoDao.insert(voterInfo)
+    fun insertVoterInfo(voterInfo: VoterInfo) = voterInfoDao.insert(voterInfo)
+    fun insertElection(election: Election) = electionDao.insert(election)
     fun getVoterInfo(id: Int) = voterInfoDao.get(id)
+    fun getElection(id: Int) = electionDao.get(id)
+    fun getFollowedElections() = electionDao.getFollowedElections()
+
+
+
 }

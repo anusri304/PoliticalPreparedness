@@ -1,7 +1,5 @@
 package com.example.android.politicalpreparedness.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.VoterInfo
@@ -16,7 +14,7 @@ class VoterInfoRepository( private val civicApi: CivicsApi, private val database
             try {
                 val response = civicApi.getVoterInfo(address, id)
                 print(response)
-                convertToVoterInfo(id,response)?.let { database.insert(it) }
+                convertToVoterInfo(id,response)?.let { database.insertVoterInfo(it) }
             }
             catch (e:Exception){
                 e.stackTrace

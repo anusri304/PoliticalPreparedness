@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
@@ -31,6 +32,10 @@ class ElectionsFragment: Fragment() {
         viewModel.displayElection(it)
     })
 
+    val followedELectionAdapter = ElectionListAdapter(ElectionListAdapter.ElectionListener {
+
+    })
+
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -42,6 +47,12 @@ class ElectionsFragment: Fragment() {
         //TODO: Add ViewModel values and create ViewModel
 
         binding.recyclerElection.adapter = adapter
+
+        binding.recyclerSavedElection.adapter = followedELectionAdapter
+
+        viewModel.followedElections?.observe(viewLifecycleOwner, Observer {
+            followedELectionAdapter.submitList(it)
+        })
 
         viewModel.navigateToSelectedElection.observe(viewLifecycleOwner, Observer {
             if ( null != it ) {
@@ -55,6 +66,10 @@ class ElectionsFragment: Fragment() {
                     viewModel.displayElectionComplete()
             }
         })
+
+
+
+
 
         //TODO: Add binding values
 
