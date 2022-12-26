@@ -1,6 +1,7 @@
 package com.example.android.politicalpreparedness.election
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
@@ -40,6 +41,8 @@ class VoterInfoFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
+
+        binding.electionName.setTitleTextColor(Color.WHITE);
 
         val arguments = VoterInfoFragmentArgs.fromBundle(requireArguments())
         viewModel.displayElectionInfo(arguments.selectedElection)

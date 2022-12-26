@@ -33,7 +33,7 @@ class ElectionsFragment: Fragment() {
     })
 
     val followedELectionAdapter = ElectionListAdapter(ElectionListAdapter.ElectionListener {
-
+        viewModel.displayElection(it)
     })
 
     override fun onCreateView(inflater: LayoutInflater,
