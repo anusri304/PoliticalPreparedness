@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/profilePicImage"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:scaleType="centerCrop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:imageUrl="@{representative.official.photoUrl}"
@@ -25,7 +25,7 @@
             app:srcCompat="@drawable/ic_profile" />
 
         <TextView
-            android:id="@+id/textViewOfficeName"
+            android:id="@+id/textViewOfficialName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -37,9 +37,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textViewOfficialName"
+            android:id="@+id/textViewOfficialParty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
             android:layout_marginEnd="132dp"
             android:text="@{representative.official.party}"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -47,27 +48,32 @@
             app:layout_constraintHorizontal_bias="0.096"
             app:layout_constraintStart_toEndOf="@+id/profilePicImage"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.04000002" />
 
         <TextView
-            android:id="@+id/textViewPartyName"
+            android:id="@+id/textViewOfficeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="132dp"
             android:text="@{representative.office.name}"
+            android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_bias="0.096"
-            app:layout_constraintStart_toEndOf="@+id/profilePicImage" />
+            app:layout_constraintStart_toEndOf="@+id/profilePicImage"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageViewTwitter"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="41dp"
+            android:layout_marginEnd="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:srcCompat="@drawable/ic_twitter"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/ic_twitter" />
 
         <ImageView
             android:id="@+id/imageViewFacebook"

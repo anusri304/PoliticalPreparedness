@@ -45,16 +45,25 @@ class RepresentativeViewHolder(val binding: RepresentativeListBinding): Recycler
         if (!facebookUrl.isNullOrBlank()) {
             enableLink(binding.imageViewFacebook, facebookUrl)
         }
+        else {
+            binding.imageViewFacebook.visibility = View.GONE
+        }
 
         val twitterUrl = getTwitterUrl(channels)
         if (!twitterUrl.isNullOrBlank()) {
             enableLink(binding.imageViewTwitter, twitterUrl)
+        }
+        else {
+            binding.imageViewTwitter.visibility = View.GONE
         }
     }
 
     private fun showWWWLinks(urls: List<String>?) {
         if (urls != null) {
             enableLink(binding.imageViewWeb, urls.first())
+        }
+        else {
+            binding.imageViewWeb.visibility = View.GONE
         }
     }
 

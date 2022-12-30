@@ -123,6 +123,8 @@
         <TextView
             android:id="@+id/txtview_representative_title"
             android:layout_width="wrap_content"
+            android:textSize="24dp"
+            android:layout_marginTop="12dp"
             android:textStyle="bold"
             android:text="@string/my_representatives"
             android:layout_height="wrap_content"
