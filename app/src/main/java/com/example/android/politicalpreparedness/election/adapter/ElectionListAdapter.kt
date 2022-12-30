@@ -60,6 +60,14 @@ class ElectionListAdapter(private val clickListener: ElectionListener): ListAdap
     }
 
     //TODO: Add companion object to inflate ViewHolder (from)
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 }
 
 //TODO: Create ElectionViewHolder
