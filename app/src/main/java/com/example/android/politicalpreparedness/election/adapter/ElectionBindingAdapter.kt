@@ -63,5 +63,5 @@ fun bindImageUrl(imgView: ImageView, imgUrl: String?) {
                     .error(R.drawable.ic_broken_image))
             .circleCrop()
             .into(imgView)
-    }
+    } ?: imgView.setImageResource(R.drawable.ic_profile)
 }
