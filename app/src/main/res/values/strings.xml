@@ -22,6 +22,7 @@
     <string name="city">City</string>
     <string name="zip">Zip</string>
     <string name="my_representatives">My Representatives</string>
+    <string name="manual_enable_while_use_permission">This app needs you to allow while in use location permission in order to select a location in the map.Grant the while in use location permission under Settings->Apps->Location Reminders->Permissions.</string>
 
     <!-- TODO: Add necessary string values -->
 

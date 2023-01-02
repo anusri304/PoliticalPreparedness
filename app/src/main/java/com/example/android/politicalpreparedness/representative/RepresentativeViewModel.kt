@@ -57,8 +57,7 @@ class RepresentativeViewModel(app:Application): ViewModel() {
         viewModelScope.launch {
             try {
                 address.value!!.state = getState(selectedIndex.value!!)
-                val address = address.value!!.toFormattedString()
-                representativeRepository.getRepresentatives(address)
+                representativeRepository.getRepresentatives( address.value!!.toFormattedString())
             }
             catch(e:Exception) {
                e.stackTrace
@@ -70,6 +69,15 @@ class RepresentativeViewModel(app:Application): ViewModel() {
     private fun getState(selectedIndex:Int):String {
      return states.value!!.toList()[selectedIndex]
 
+    }
+
+    fun getLocation(address:Address) {
+        val stateIndex = _states.value?.indexOf(address.state)
+        if (stateIndex != null && stateIndex >= 0) {
+            selectedIndex.value = stateIndex!!
+            _address.value = address
+            getRepresentatives()
+        }
     }
 
 }

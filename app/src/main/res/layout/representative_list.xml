@@ -15,10 +15,10 @@
 
         <ImageView
             android:id="@+id/profilePicImage"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:adjustViewBounds="true"
             app:imageUrl="@{representative.official.photoUrl}"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +29,8 @@
             android:id="@+id/textViewOfficeName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@{representative.office.name}"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/profilePicImage"
@@ -53,16 +53,13 @@
             android:text="@{representative.official.party}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textViewOfficialName"
-            app:layout_constraintTop_toBottomOf="@+id/textViewOfficialName"
-            />
-
+            app:layout_constraintTop_toBottomOf="@+id/textViewOfficialName" />
 
 
         <ImageView
             android:id="@+id/imageViewTwitter"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_twitter" />
@@ -71,18 +68,16 @@
             android:id="@+id/imageViewFacebook"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/imageViewTwitter"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageViewTwitter"
             app:srcCompat="@drawable/ic_facebook" />
 
         <ImageView
             android:id="@+id/imageViewWeb"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/imageViewFacebook"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageViewFacebook"
             app:srcCompat="@drawable/ic_www" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

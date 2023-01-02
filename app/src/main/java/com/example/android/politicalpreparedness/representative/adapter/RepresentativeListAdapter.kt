@@ -17,7 +17,7 @@ import com.example.android.politicalpreparedness.representative.model.Representa
 class RepresentativeListAdapter: ListAdapter<Representative, RepresentativeListAdapter.RepresentativeViewHolder>( RepresentativeDiffCallback)
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepresentativeViewHolder {
-        return RepresentativeViewHolder(RepresentativeListBinding.inflate(LayoutInflater.from(parent.context)))
+        return RepresentativeViewHolder(RepresentativeListBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
     override fun onBindViewHolder(holder: RepresentativeViewHolder, position: Int) {
