@@ -11,6 +11,7 @@
 
     <string name="voting_location_text"><u>Click here for voting location</u></string>
     <string name="ballot_information_text"><u>Click here for ballot information</u></string>
+    <string name="location_required_error">Location services must be enabled to use the app</string>
 
     <string name="follow_election">Follow Election</string>
     <string name="unfollow_election">Unfollow Election</string>
@@ -21,8 +22,11 @@
     <string name="address_line_2">Address Line 2</string>
     <string name="city">City</string>
     <string name="zip">Zip</string>
+    <string name="settings">Settings</string>
     <string name="my_representatives">My Representatives</string>
-    <string name="manual_enable_while_use_permission">This app needs you to allow while in use location permission in order to select a location in the map.Grant the while in use location permission under Settings->Apps->Location Reminders->Permissions.</string>
+    <string name="manual_enable_while_use_permission">This app needs you to allow while in use location permission in order to fetch the current location.Grant the while in use location permission under Settings->Apps->Political Preparedness->Permissions.</string>
+    <string name="permission_denied_explanation">You need to grant location permission in order to fetch the current location.Click Settings here and grant permission</string>
+
 
     <!-- TODO: Add necessary string values -->
 

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Geocoder
@@ -28,15 +29,16 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
-import com.google.android.gms.location.R
 import java.util.Locale
 import androidx.activity.result.IntentSenderRequest
+import com.example.android.politicalpreparedness.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.material.snackbar.Snackbar
 
 class RepresentativesFragment : Fragment() {
+    private lateinit var binding: FragmentRepresentativeBinding
     private val viewModel: RepresentativeViewModel by lazy {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onViewCreated()"
@@ -50,6 +52,7 @@ class RepresentativesFragment : Fragment() {
     companion object {
         //TODO: Add Constant for Location request
         private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
+        private const val REQUEST_TURN_DEVICE_LOCATION_ON = 29
         private const val TAG = "RepresentativesFragment"
         private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     }
@@ -63,7 +66,7 @@ class RepresentativesFragment : Fragment() {
     ): View? {
 
         //TODO: Establish bindings
-        val binding = FragmentRepresentativeBinding.inflate(inflater)
+        binding = FragmentRepresentativeBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -125,7 +128,7 @@ class RepresentativesFragment : Fragment() {
                 try {
                     startIntentSenderForResult(
                         exception.resolution.intentSender,
-                        REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE, null, 0, 0, 0, null
+                        REQUEST_TURN_DEVICE_LOCATION_ON, null, 0, 0, 0, null
                     )
                 } catch (sendEx: IntentSender.SendIntentException) {
                     Log.d(
@@ -134,10 +137,10 @@ class RepresentativesFragment : Fragment() {
                     )
                 }
             } else {
-//                Snackbar.make(
-//                    binding.root,
-//                    R.string.location_required_error, Snackbar.LENGTH_LONG
-//                ).show()
+                Snackbar.make(
+                    binding.root,
+                    R.string.location_required_error, Snackbar.LENGTH_LONG
+                ).show()
             }
         }
 
@@ -148,7 +151,14 @@ class RepresentativesFragment : Fragment() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_TURN_DEVICE_LOCATION_ON && resultCode!=-1) {
+            checkDeviceLocationSettingsAndFetchLocation(false)
+        }
+    }
     @TargetApi(29)
     private fun foregroundPermissionApproved(): Boolean {
         return (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
@@ -165,13 +175,13 @@ class RepresentativesFragment : Fragment() {
              checkDeviceLocationSettingsAndFetchLocation(true)
         } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-//                Snackbar.make(
-//                    binding.root,
-//                    R.string.permission_denied_explanation, Snackbar.LENGTH_LONG
-//                )
-//                    .setAction(R.string.settings) {
-//                        requestForegroundLocationPermissions()
-//                    }.show()
+                Snackbar.make(
+                    binding.root,
+               R.string.permission_denied_explanation, Snackbar.LENGTH_LONG
+                )
+                    .setAction(R.string.settings) {
+                        requestForegroundLocationPermissions()
+                    }.show()
 
             } else {
                 displayAlertDialog()
