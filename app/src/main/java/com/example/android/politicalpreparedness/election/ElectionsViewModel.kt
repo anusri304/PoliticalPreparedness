@@ -9,16 +9,13 @@ import com.example.android.politicalpreparedness.database.ElectionDatabase.Compa
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.repository.ElectionRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-//TODO: Construct ViewModel and provide election datasource
-class ElectionsViewModel(application: Application): ViewModel() {
+class ElectionsViewModel(application: Application) : ViewModel() {
 
     private val database = getInstance(application)
-    private val electionRepository = ElectionRepository(CivicsApi,database,application.applicationContext)
-    //TODO: Create live data val for upcoming elections
+    private val electionRepository =
+        ElectionRepository(CivicsApi, database, application.applicationContext)
 
     private val _upcomingElections = MutableLiveData<List<Election>>()
 
@@ -36,15 +33,16 @@ class ElectionsViewModel(application: Application): ViewModel() {
     init {
         viewModelScope.launch {
             try {
+                //LiveData to hold the list of elections from the API
                 _upcomingElections.value = electionRepository.getElections()
-                println("  _upcomingElections.value"+ _upcomingElections.value!!.size)
-            }
-            catch (e:Exception) {
-               e.stackTrace
+                println("  _upcomingElections.value" + _upcomingElections.value!!.size)
+            } catch (e: Exception) {
+                e.stackTrace
             }
         }
     }
 
+    // Livedata to get the saved elections from the datbase
     val followedElections = electionRepository.followedElection
 
 
@@ -62,10 +60,5 @@ class ElectionsViewModel(application: Application): ViewModel() {
         _navigateToSelectedElection.value = null
     }
 
-    //TODO: Create live data val for saved elections
-
-    //TODO: Create val and functions to populate live data for upcoming elections from the API and saved elections from local database
-
-    //TODO: Create functions to navigate to saved or upcoming election voter info
 
 }

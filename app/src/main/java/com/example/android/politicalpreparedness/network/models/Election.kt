@@ -1,10 +1,12 @@
 package com.example.android.politicalpreparedness.network.models
 
 import android.os.Parcelable
-import androidx.room.*
-import com.squareup.moshi.*
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
-import kotlinx.serialization.Required
 import java.util.*
 
 @Entity(tableName = "election_table")

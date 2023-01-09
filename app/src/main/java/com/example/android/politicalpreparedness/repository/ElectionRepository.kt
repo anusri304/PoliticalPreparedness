@@ -1,7 +1,6 @@
 package com.example.android.politicalpreparedness.repository
 
 import android.content.Context
-import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.network.CivicsApi
@@ -9,10 +8,7 @@ import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.asDatabaseModel
 import com.example.android.politicalpreparedness.util.Util.Companion.isNetworkAvailable
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.concurrent.Executors
 
 class ElectionRepository(
     private val civicApi: CivicsApi,

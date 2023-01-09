@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.representative.RepresentativeViewModel
 
-//TODO: Create Factory to generate VoterInfoViewModel with provided election datasource
+//Factory to generate VoterInfoViewModel with provided election datasource
 class RepresentativeViewModelFactory(val app:Application): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RepresentativeViewModel::class.java)) {

@@ -16,6 +16,7 @@ import com.example.android.politicalpreparedness.representative.model.Representa
 
 class RepresentativeListAdapter: ListAdapter<Representative, RepresentativeListAdapter.RepresentativeViewHolder>( RepresentativeDiffCallback)
 {
+    // Add companion object to inflate ViewHolder (from)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepresentativeViewHolder {
         return RepresentativeViewHolder(RepresentativeListBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
@@ -30,15 +31,14 @@ class RepresentativeViewHolder(val binding: RepresentativeListBinding): Recycler
 
     fun bind(item: Representative) {
         binding.representative = item
+
         showSocialLinks(item.official.channels)
         showWWWLinks(item.official.urls)
-        //TODO: Show social links ** Hint: Use provided helper methods
-        //TODO: Show www link ** Hint: Use provided helper methods
 
         binding.executePendingBindings()
     }
 
-    //TODO: Add companion object to inflate ViewHolder (from)
+
 
     private fun showSocialLinks(channels: List<Channel>?) {
         val facebookUrl = getFacebookUrl(channels)
@@ -102,5 +102,3 @@ class RepresentativeViewHolder(val binding: RepresentativeListBinding): Recycler
         }
     }
 }
-//
-////TODO: Create RepresentativeListener

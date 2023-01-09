@@ -1,6 +1,5 @@
 package com.example.android.politicalpreparedness.election.adapter
 
-//import com.example.android.politicalpreparedness.databinding.ViewholderElectionBinding
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,6 +10,7 @@ import com.example.android.politicalpreparedness.network.models.Election
 
 class ElectionListAdapter(private val clickListener: ElectionListener): ListAdapter<Election, ElectionListAdapter.ElectionViewHolder>(ElectionDiffCallback) {
 
+    // Create ElectionViewHolder
     class ElectionViewHolder(private var binding: ElectionViewItemBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(electionBinding: Election) {
@@ -22,8 +22,9 @@ class ElectionListAdapter(private val clickListener: ElectionListener): ListAdap
     }
 
     /**
-     * Allows the RecyclerView to determine which items have changed when the [List] of [Asteroid]
+     * Allows the RecyclerView to determine which items have changed when the [List] of [Elections]
      * has been updated.
+     * Create ElectionDiffCallback
      */
     companion object ElectionDiffCallback : DiffUtil.ItemCallback<Election>() {
         override fun areItemsTheSame(oldItem: Election, newItem: Election): Boolean {
@@ -34,11 +35,12 @@ class ElectionListAdapter(private val clickListener: ElectionListener): ListAdap
             return oldItem.id == newItem.id
         }
     }
+   // Add companion object to inflate ViewHolder (from)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ElectionViewHolder {
         return ElectionViewHolder(ElectionViewItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
-    //TODO: Bind ViewHolder
+    // Bind ViewHolder
     /**
      * Replaces the contents of a view (invoked by the layout manager)
      */
@@ -51,15 +53,16 @@ class ElectionListAdapter(private val clickListener: ElectionListener): ListAdap
     }
 
     /**
-     * Custom listener that handles clicks on [RecyclerView] items.  Passes the [Asteroid]
+     * Custom listener that handles clicks on [RecyclerView] items.  Passes the [Election]
      * associated with the current item to the [onClick] function.
-     * @param clickListener lambda that will be called with the current [Asteroid]
+     * @param clickListener lambda that will be called with the current [Election]
+     *  Create ElectionListener
      */
+
     class ElectionListener(val clickListener: (election: Election) -> Unit) {
         fun onClick(election: Election) = clickListener(election)
     }
 
-    //TODO: Add companion object to inflate ViewHolder (from)
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
@@ -70,8 +73,3 @@ class ElectionListAdapter(private val clickListener: ElectionListener): ListAdap
     }
 }
 
-//TODO: Create ElectionViewHolder
-
-//TODO: Create ElectionDiffCallback
-
-//TODO: Create ElectionListener

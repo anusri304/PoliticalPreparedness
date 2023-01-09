@@ -7,6 +7,7 @@ data class Address(
     var state: String,
     var zip: String
 ) {
+    // Create function to get address from individual fields
     fun toFormattedString(): String {
         var output = line1.plus("\n")
         if (!line2.isNullOrEmpty()) output = output.plus(line2).plus("\n")

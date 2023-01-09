@@ -1,7 +1,5 @@
 package com.example.android.politicalpreparedness.election;
 
-import android.app.Activity;
-import android.content.Intent.getIntent
 import android.os.Bundle
 import android.util.Log
 import android.webkit.WebView
@@ -18,7 +16,7 @@ class WebViewActivity: AppCompatActivity() {
 
         Log.i("WebViewActivity", "URL to open: ${textUrl}")
         // Find the WebView by its unique ID
-        val webView: WebView = findViewById(R.id.webview_voterinfo)
+        val webView: WebView = findViewById(R.id.voterInfoWebview)
         webView.webViewClient = WebViewClient()
         webView.settings.javaScriptEnabled = true
         webView.settings.setSupportZoom(true)

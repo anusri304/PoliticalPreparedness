@@ -17,25 +17,21 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
-import com.example.android.politicalpreparedness.election.ElectionsViewModel
-import com.example.android.politicalpreparedness.election.ElectionsViewModelFactory
 import com.example.android.politicalpreparedness.election.RepresentativeViewModelFactory
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
-import java.util.Locale
-import androidx.activity.result.IntentSenderRequest
-import com.example.android.politicalpreparedness.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 class RepresentativesFragment : Fragment() {
     private lateinit var binding: FragmentRepresentativeBinding
@@ -50,14 +46,12 @@ class RepresentativesFragment : Fragment() {
     }
 
     companion object {
-        //TODO: Add Constant for Location request
+        // Constant for Location request
         private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
         private const val REQUEST_TURN_DEVICE_LOCATION_ON = 29
         private const val TAG = "RepresentativesFragment"
         private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     }
-
-    //TODO: Declare ViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,7 +59,7 @@ class RepresentativesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        //TODO: Establish bindings
+        // Establish bindings
         binding = FragmentRepresentativeBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -73,25 +67,26 @@ class RepresentativesFragment : Fragment() {
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
 
+        // Define and assign Representative adapter
+
         val adapter = RepresentativeListAdapter()
+
+        // Populate Representative adapter
         binding.recyclerRepresentative.adapter = adapter
 
         viewModel.representatives.observe(viewLifecycleOwner, { representatives ->
             adapter.submitList(representatives)
         })
+
+        // Establish button listeners for field and location search
         binding.buttonSearch.setOnClickListener({
+            hideKeyboard()
             viewModel.getRepresentatives()
         })
 
         binding.buttonLocation.setOnClickListener({
             checkLocationPermissions()
         })
-
-        //TODO: Define and assign Representative adapter
-
-        //TODO: Populate Representative adapter
-
-        //TODO: Establish button listeners for field and location search
         return binding.root
 
     }
@@ -161,6 +156,7 @@ class RepresentativesFragment : Fragment() {
     }
     @TargetApi(29)
     private fun foregroundPermissionApproved(): Boolean {
+        //Check if permission is already granted and return (true = granted, false = denied/other)
         return (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -174,12 +170,14 @@ class RepresentativesFragment : Fragment() {
         if (foregroundPermissionApproved()) {
              checkDeviceLocationSettingsAndFetchLocation(true)
         } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            // Request Location permissions
             if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                 Snackbar.make(
                     binding.root,
                R.string.permission_denied_explanation, Snackbar.LENGTH_LONG
                 )
                     .setAction(R.string.settings) {
+                        // Handle location permission result to get location on permission granted
                         requestForegroundLocationPermissions()
                     }.show()
 
@@ -187,7 +185,7 @@ class RepresentativesFragment : Fragment() {
                 displayAlertDialog()
             }
         }
-        //TODO: Handle location permission result to get location on permission granted
+
     }
 
     fun displayAlertDialog() {
@@ -201,28 +199,14 @@ class RepresentativesFragment : Fragment() {
         alertDialog.show()
     }
 
-//    private fun checkLocationPermissions(): Boolean {
-//        return if (isPermissionGranted()) {
-//            true
-//        } else {
-//            //TODO: Request Location permissions
-//            false
-//        }
-//    }
-
-//    private fun isPermissionGranted() : Boolean {
-//        //TODO: Check if permission is already granted and return (true = granted, false = denied/other)
-//    }
-
     @SuppressLint("MissingPermission")
     private fun getLocation() {
         if (foregroundPermissionApproved()) {
             initLocationRequestAndCallback()
         }
-        //TODO: Get location from LocationServices
-        //TODO: The geoCodeLocation method is a helper function to change the lat/long location to a human readable street address
     }
 
+    //Get location from LocationServices
     @SuppressLint("MissingPermission")
     private fun initLocationRequestAndCallback() {
 
@@ -250,7 +234,7 @@ class RepresentativesFragment : Fragment() {
             )
         }
     }
-
+    // The geoCodeLocation method is a helper function to change the lat/long location to a human readable street address
     private fun geoCodeLocation(location: Location): Address {
         val geocoder = Geocoder(context, Locale.getDefault())
 

@@ -2,8 +2,20 @@
 <resources>
     <dimen name="default_padding">8dp</dimen>
     <dimen name="default_margin">16dp</dimen>
-    <dimen name="default_text_size">18dp</dimen>
+    <dimen name="default_text_size">18sp</dimen>
+    <dimen name="big_text_size">24sp</dimen>
+    <dimen name="layout_padding">30dp</dimen>
+    <dimen name="medium_text_size">16sp</dimen>
+    <dimen name="small_padding">2dp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
+    <dimen name="margin_37">37dp</dimen>
+    <dimen name="margin_19">19dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_9">9dp</dimen>
+    <dimen name="margin_18">18dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+    <dimen name="padding_8">8dp</dimen>
+    <dimen name="margin_14">14dp</dimen>
 
-    <!-- TODO: Add necessary dimension values -->s
 
 </resources>

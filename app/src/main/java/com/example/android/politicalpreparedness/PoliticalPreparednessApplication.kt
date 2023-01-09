@@ -18,12 +18,14 @@
 package com.example.android.politicalpreparedness
 
 import android.app.Application
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.android.politicalpreparedness.work.ElectionWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 
 /**
  * Override application to setup background work via WorkManager

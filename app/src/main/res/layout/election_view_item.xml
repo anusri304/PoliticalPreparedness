@@ -17,8 +17,7 @@
   ~
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -35,23 +34,22 @@
 
         <TextView
             android:id="@+id/election_name"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:padding="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_padding"
+            android:layout_marginLeft="@dimen/padding_10"
             android:text="@{election.name}"
-            android:textStyle="bold"
-            android:textSize="20dp" />
+            style="@style/txtView_bold"
+            android:textSize="@dimen/medium_text_size" />
 
 
             <TextView
                 android:id="@+id/election_date"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:paddingLeft="8dp"
-                android:paddingTop="2dp"
+                android:layout_height="@dimen/layout_padding"
+                android:layout_marginLeft="@dimen/padding_10"
                 android:text="@{election.electionDay.toString()}"
                 android:layout_below="@+id/election_name"
-                android:textSize="16dp" />
+                android:textSize="@dimen/medium_text_size" />
 
         </RelativeLayout>
 

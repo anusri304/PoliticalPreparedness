@@ -7,18 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
 import com.example.android.politicalpreparedness.election.adapter.ElectionListAdapter
-import com.example.android.politicalpreparedness.network.jsonadapter.ElectionAdapter
 
 class ElectionsFragment: Fragment() {
 
     private val navController by lazy { findNavController() }
 
-    //TODO: Declare ViewModel
     private val viewModel: ElectionsViewModel by lazy {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onViewCreated()"
@@ -28,10 +24,11 @@ class ElectionsFragment: Fragment() {
 
 
     }
+    //Adapter for all elections from teh API
     val adapter = ElectionListAdapter(ElectionListAdapter.ElectionListener {
         viewModel.displayElection(it)
     })
-
+  //Adapter for saved elections
     val followedELectionAdapter = ElectionListAdapter(ElectionListAdapter.ElectionListener {
         viewModel.displayElection(it)
     })
@@ -44,12 +41,15 @@ class ElectionsFragment: Fragment() {
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
-        //TODO: Add ViewModel values and create ViewModel
 
+        // Bind recycler election view to adapter to display all elections from the API
         binding.recyclerElection.adapter = adapter
 
+        // Bind recycler election view to adapter to display saved elections from the database
         binding.recyclerSavedElection.adapter = followedELectionAdapter
 
+
+       //Observe saved elections to display in the UI
         viewModel.followedElections?.observe(viewLifecycleOwner, Observer {
             followedELectionAdapter.submitList(it)
         })
@@ -67,24 +67,10 @@ class ElectionsFragment: Fragment() {
             }
         })
 
-
-
-
-
-        //TODO: Add binding values
-
-        //TODO: Link elections to voter info
-
-        //TODO: Initiate recycler adapters
-
-        //TODO: Populate recycler adapters
-
        // setHasOptionsMenu(true)
 
         return binding.root
 
-    }
-
-    //TODO: Refresh adapters when fragment loads
+   }
 
 }

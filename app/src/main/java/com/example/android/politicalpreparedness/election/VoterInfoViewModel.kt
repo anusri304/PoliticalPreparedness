@@ -19,14 +19,6 @@ class VoterInfoViewModel(application: Application) : ViewModel() {
 
     private val electionRepository =
         ElectionRepository(CivicsApi, database, application.applicationContext)
-    //TODO: Add live data to hold voter info
-
-    //TODO: Add var and methods to populate voter info
-
-    //TODO: Add var and methods to support loading URLs
-
-    //TODO: Add var and methods to save and remove elections to local database
-    //TODO: cont'd -- Populate initial state of save button to reflect proper action based on election saved status
 
     /**
      * Hint: The saved state can be accomplished in multiple ways. It is directly related to how elections are saved/removed from the database.
@@ -36,6 +28,7 @@ class VoterInfoViewModel(application: Application) : ViewModel() {
     val selectedElection: LiveData<Election>
         get() = _selectedElection
 
+    // live data to hold voter info
     private val _voterInfo = MutableLiveData<VoterInfo>()
     val voterInfo: LiveData<VoterInfo>
         get() = _voterInfo
@@ -44,19 +37,25 @@ class VoterInfoViewModel(application: Application) : ViewModel() {
     val isElectionFollowed: LiveData<Boolean?>
         get() = _isElectionFollowed
 
-
-    fun displayElectionInfo(election: Election) {
+    /*
+    Method to display Voter info
+     */
+    fun displayVoterInfo(election: Election) {
         _selectedElection.value = election
         checkIfElectionSaved(election)
         saveVoterInfo(election)
     }
 
+    // populate voter info
     private fun loadVoterInfo(id: Int) {
         viewModelScope.launch {
             _voterInfo.value = voterInfoRepository.getVoterInfo(id)
         }
     }
 
+    /*
+    Method to save voter info
+     */
     private fun saveVoterInfo(election: Election) {
         viewModelScope.launch {
             try {
@@ -72,6 +71,9 @@ class VoterInfoViewModel(application: Application) : ViewModel() {
         }
     }
 
+    /*
+       Method invoked when follow/unfollow election is clicked to update the database
+     */
     fun onFollowButtonClick() {
         viewModelScope.launch {
             selectedElection.value?.let {
@@ -87,6 +89,9 @@ class VoterInfoViewModel(application: Application) : ViewModel() {
         }
 
     }
+    /*
+    Covenience method to check if election is saved in the database
+     */
 
     fun checkIfElectionSaved(election: Election) {
         viewModelScope.launch {

@@ -1,10 +1,6 @@
 package com.example.android.politicalpreparedness.election.adapter
 
 import android.content.Intent
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -51,17 +47,3 @@ fun bindFollowButtonText(button: Button, isElectionSaved: Boolean?) {
     }
 }
 
-@BindingAdapter("imageUrl")
-fun bindImageUrl(imgView: ImageView, imgUrl: String?) {
-    imgUrl?.let {
-        val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
-        Glide.with(imgView.context)
-            .load(imgUri)
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.loading_animation)
-                    .error(R.drawable.ic_broken_image))
-            .circleCrop()
-            .into(imgView)
-    } ?: imgView.setImageResource(R.drawable.ic_profile)
-}

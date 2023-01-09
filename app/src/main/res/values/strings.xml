@@ -26,7 +26,10 @@
     <string name="my_representatives">My Representatives</string>
     <string name="manual_enable_while_use_permission">This app needs you to allow while in use location permission in order to fetch the current location.Grant the while in use location permission under Settings->Apps->Political Preparedness->Permissions.</string>
     <string name="permission_denied_explanation">You need to grant location permission in order to fetch the current location.Click Settings here and grant permission</string>
-
+    <string name="rep_pic">Representative Profile Picture</string>
+    <string name="twitter_logo">Twitter logo</string>
+    <string name="facebook_logo">Facebook Logo</string>
+    <string name="web_logo">www logo</string>
 
     <!-- TODO: Add necessary string values -->
 
