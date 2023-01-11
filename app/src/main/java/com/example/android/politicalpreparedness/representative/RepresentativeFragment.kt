@@ -21,8 +21,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
 import com.example.android.politicalpreparedness.election.RepresentativeViewModelFactory
+import com.example.android.politicalpreparedness.network.ApiStatus
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
+import com.example.android.politicalpreparedness.util.Util
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -35,6 +37,7 @@ import java.util.*
 
 class RepresentativesFragment : Fragment() {
     private lateinit var binding: FragmentRepresentativeBinding
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val viewModel: RepresentativeViewModel by lazy {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onViewCreated()"
@@ -50,7 +53,7 @@ class RepresentativesFragment : Fragment() {
         private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
         private const val REQUEST_TURN_DEVICE_LOCATION_ON = 29
         private const val TAG = "RepresentativesFragment"
-        private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
     }
 
     override fun onCreateView(
@@ -74,21 +77,67 @@ class RepresentativesFragment : Fragment() {
         // Populate Representative adapter
         binding.recyclerRepresentative.adapter = adapter
 
-        viewModel.representatives.observe(viewLifecycleOwner, { representatives ->
+        viewModel.representatives.observe(viewLifecycleOwner) { representatives ->
             adapter.submitList(representatives)
-        })
+            if (representatives != null) {
+                if (representatives.isNotEmpty()) {
+                    try {
+                        //https://knowledge.udacity.com/questions/815081
+                        val motionStat = savedInstanceState?.getInt("motion_stat")
+                        if (motionStat != null) {
+                            binding.motionLayout.transitionToState(motionStat)
+                        }
+                    } catch (e: Exception) {
+                    }
+                }
+            }
+        }
+
 
         // Establish button listeners for field and location search
-        binding.buttonSearch.setOnClickListener({
+        binding.buttonSearch.setOnClickListener {
             hideKeyboard()
-            viewModel.getRepresentatives()
-        })
+            if(Util.isNetworkAvailable(requireContext())) {
+                viewModel.getRepresentatives()
+            }
+            else{
+                Snackbar.make(requireView(), R.string.err_no_connection,Snackbar.LENGTH_LONG).show()
+            }
 
-        binding.buttonLocation.setOnClickListener({
-            checkLocationPermissions()
-        })
+        }
+
+        binding.buttonLocation.setOnClickListener {
+            if(Util.isNetworkAvailable(requireContext())) {
+                checkLocationPermissions()
+            }
+            else{
+                Snackbar.make(requireView(), R.string.err_no_connection,Snackbar.LENGTH_LONG).show()
+            }
+        }
+
+        savedInstanceState?.getParcelable<Address>("address")?.let{
+            //https://knowledge.udacity.com/questions/815081
+            viewModel.getRepresentatives()
+        }
+
+        viewModel.status.observe(viewLifecycleOwner) { apiStatus ->
+            when (apiStatus) {
+                ApiStatus.ERROR -> {
+                    Snackbar.make(requireView(), R.string.error_representatives, Snackbar.LENGTH_LONG)
+                        .show()
+                }
+                else -> {}
+            }
+        }
+
         return binding.root
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.showSnackBar.observe(viewLifecycleOwner) {
+            Snackbar.make(requireView(), it, Snackbar.LENGTH_LONG).show()
+        }
     }
 
     private fun checkLocationPermissions() {
@@ -255,6 +304,12 @@ class RepresentativesFragment : Fragment() {
     private fun hideKeyboard() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("address",binding.viewModel?._address?.value)
+        outState.putInt("motion_stat",binding.motionLayout.currentState)
     }
 
 }

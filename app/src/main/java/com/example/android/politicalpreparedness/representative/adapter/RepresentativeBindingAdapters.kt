@@ -34,7 +34,7 @@ fun bindImageUrl(imgView: ImageView, imgUrl: String?) {
             .apply(
                 RequestOptions()
                     .placeholder(R.drawable.loading_animation)
-                    .error(R.drawable.ic_profile))
+                    .error(R.drawable.ic_broken_image))
             .circleCrop()
             .into(imgView)
     } ?: imgView.setImageResource(R.drawable.ic_profile)

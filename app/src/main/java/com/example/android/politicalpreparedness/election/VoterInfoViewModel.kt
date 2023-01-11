@@ -1,11 +1,15 @@
 package com.example.android.politicalpreparedness.election
 
 import android.app.Application
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.database.ElectionDatabase
+import com.example.android.politicalpreparedness.network.ApiStatus
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.VoterInfo
@@ -13,7 +17,7 @@ import com.example.android.politicalpreparedness.repository.ElectionRepository
 import com.example.android.politicalpreparedness.repository.VoterInfoRepository
 import kotlinx.coroutines.launch
 
-class VoterInfoViewModel(application: Application) : ViewModel() {
+class VoterInfoViewModel(val application: Application) : ViewModel() {
     private val database = ElectionDatabase.getInstance(application)
     private val voterInfoRepository = VoterInfoRepository(CivicsApi, database)
 
@@ -37,6 +41,14 @@ class VoterInfoViewModel(application: Application) : ViewModel() {
     val isElectionFollowed: LiveData<Boolean?>
         get() = _isElectionFollowed
 
+    // Live Data for status of the most recent voter information request
+    private val _status = MutableLiveData<ApiStatus>()
+    val status: LiveData<ApiStatus>
+        get() = _status
+
+
+    val showSnackBar = MutableLiveData<String>()
+
     /*
     Method to display Voter info
      */
@@ -49,7 +61,15 @@ class VoterInfoViewModel(application: Application) : ViewModel() {
     // populate voter info
     private fun loadVoterInfo(id: Int) {
         viewModelScope.launch {
-            _voterInfo.value = voterInfoRepository.getVoterInfo(id)
+            try {
+                _status.value = ApiStatus.LOADING
+                _voterInfo.value = voterInfoRepository.getVoterInfo(id)
+                _status.value = ApiStatus.DONE
+            }
+            catch (e: Exception) {
+                _status.value = ApiStatus.ERROR
+            }
+
         }
     }
 
@@ -59,12 +79,14 @@ class VoterInfoViewModel(application: Application) : ViewModel() {
     private fun saveVoterInfo(election: Election) {
         viewModelScope.launch {
             try {
-                val MOCK_STATE = "ks"
-                val state =
-                    if (election.division.state.isEmpty()) MOCK_STATE else election.division.state
-                val address = "${state},${election.division.country}"
-                voterInfoRepository.saveVoterInfo(address, election.id)
-                loadVoterInfo(election.id)
+                if (election.division.country.isBlank() || election.division.state.isBlank()) {
+                    showSnackBar.value = application.getString(R.string.invalid_election_request)
+                }
+                else {
+                    val address = "${election.division.state},${election.division.country}"
+                    voterInfoRepository.saveVoterInfo(address, election.id)
+                    loadVoterInfo(election.id)
+                }
             } catch (e: Exception) {
                 e.stackTrace
             }

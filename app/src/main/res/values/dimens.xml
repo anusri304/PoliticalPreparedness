@@ -17,6 +17,7 @@
     <dimen name="padding_10">10dp</dimen>
     <dimen name="padding_8">8dp</dimen>
     <dimen name="margin_14">14dp</dimen>
-
+    <!-- Animation -->
+    <dimen name="progress_bar">300dp</dimen>
 
 </resources>

@@ -8,8 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
 import com.example.android.politicalpreparedness.election.adapter.ElectionListAdapter
+import com.example.android.politicalpreparedness.network.ApiStatus
+import com.google.android.material.snackbar.Snackbar
 
 class ElectionsFragment: Fragment() {
 
@@ -68,6 +71,16 @@ class ElectionsFragment: Fragment() {
         })
 
        // setHasOptionsMenu(true)
+
+        viewModel.status.observe(viewLifecycleOwner) { apiStatus ->
+            when (apiStatus) {
+                ApiStatus.ERROR -> {
+                    Snackbar.make(requireView(), R.string.error_elections, Snackbar.LENGTH_LONG)
+                        .show()
+                }
+                else -> {}
+            }
+        }
 
         return binding.root
 

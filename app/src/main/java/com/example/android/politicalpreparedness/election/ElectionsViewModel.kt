@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.database.ElectionDatabase.Companion.getInstance
+import com.example.android.politicalpreparedness.network.ApiStatus
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.repository.ElectionRepository
@@ -22,6 +23,12 @@ class ElectionsViewModel(application: Application) : ViewModel() {
     val upcomingElections: LiveData<List<Election>>
         get() = _upcomingElections
 
+    // Live Data to store the status of the election request
+    private val _status: MutableLiveData<ApiStatus> = MutableLiveData()
+    val status: LiveData<ApiStatus>
+        get() = _status
+
+
 
     private val _navigateToSelectedElection = MutableLiveData<Election>()
 
@@ -34,10 +41,13 @@ class ElectionsViewModel(application: Application) : ViewModel() {
         viewModelScope.launch {
             try {
                 //LiveData to hold the list of elections from the API
+                _status.value = ApiStatus.LOADING
                 _upcomingElections.value = electionRepository.getElections()
                 println("  _upcomingElections.value" + _upcomingElections.value!!.size)
+                _status.value = ApiStatus.DONE
             } catch (e: Exception) {
                 e.stackTrace
+                _status.value = ApiStatus.ERROR
             }
         }
     }

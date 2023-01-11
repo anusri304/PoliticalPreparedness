@@ -7,12 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.database.ElectionDatabase
+import com.example.android.politicalpreparedness.network.ApiStatus
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.repository.RepresentativeRepository
 import kotlinx.coroutines.launch
 
-class RepresentativeViewModel(app:Application): ViewModel() {
+class RepresentativeViewModel(val app:Application): ViewModel() {
 
     private val _states = MutableLiveData<List<String>>()
     val states: LiveData<List<String>>
@@ -30,48 +31,48 @@ class RepresentativeViewModel(app:Application): ViewModel() {
 
     val selectedIndex = MutableLiveData<Int>()
 
+    val showSnackBar = MutableLiveData<String>()
+
+    private val _status: MutableLiveData<ApiStatus> = MutableLiveData()
+    val status: LiveData<ApiStatus>
+        get() = _status
+
+
     init {
         _address.value = Address("", "","","Kansas","")
         _states.value = app.resources.getStringArray(R.array.states).toList()
     }
-
-    /**
-     *  The following code will prove helpful in constructing a representative from the API. This code combines the two nodes of the RepresentativeResponse into a single official :
-
-    val (offices, officials) = getRepresentativesDeferred.await()
-    _representatives.value = offices.flatMap { office -> office.getRepresentatives(officials) }
-
-    Note: getRepresentatives in the above code represents the method used to fetch data from the API
-    Note: _representatives in the above code represents the established mutable live data housing representatives
-
-     */
-
     // Create function to fetch representatives from API from a provided address
     fun getRepresentatives() {
         viewModelScope.launch {
             try {
-                address.value!!.state = getState(selectedIndex.value!!)
+                _status.value = ApiStatus.LOADING
+                address.value!!.state =states.value!!.toList()[selectedIndex.value!!]
                 representativeRepository.getRepresentatives( address.value!!.toFormattedString())
+                _status.value = ApiStatus.DONE
             }
             catch(e:Exception) {
                e.stackTrace
+                _status.value = ApiStatus.ERROR
+                showSnackBar.value = app.getString(R.string.address_not_found)
             }
 
         }
     }
 
-    private fun getState(selectedIndex:Int):String {
-     return states.value!!.toList()[selectedIndex]
-
-    }
-
     fun getLocation(address:Address) {
-        val stateIndex = _states.value?.indexOf(address.state)
-        if (stateIndex != null && stateIndex >= 0) {
-            selectedIndex.value = stateIndex!!
+        // Get the selected state index from the address
+        val index = _states.value?.indexOf(address.state)
+        if (index != null && index >= 0) {
+            // Set the selected index value
+            selectedIndex.value = index!!
             _address.value = address
             getRepresentatives()
         }
+        else {
+            showSnackBar.value = app.getString(R.string.current_location_not_in_us)
+        }
+
     }
 
 }

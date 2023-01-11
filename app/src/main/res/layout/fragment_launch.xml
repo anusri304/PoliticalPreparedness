@@ -43,7 +43,6 @@
             app:layout_constraintBottom_toTopOf="@+id/findMyRepBtn"
             android:layout_marginBottom="@dimen/default_margin"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             />
 

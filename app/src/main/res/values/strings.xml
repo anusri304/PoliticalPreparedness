@@ -30,7 +30,15 @@
     <string name="twitter_logo">Twitter logo</string>
     <string name="facebook_logo">Facebook Logo</string>
     <string name="web_logo">www logo</string>
+    <string name="address_not_found">"Adress not found"</string>
+    <string name="error_elections">Unexpected error retrieving elections</string>
+    <string name="error_voter_info">Unexpected error retrieving voter info</string>
+    <string name="error_representatives">Unexpected error retrieving representatives</string>
+    <string name="current_location_not_in_us">"Current location is not in US!"</string>
+    <string name="err_no_connection">Internet connection is required to find the representatives</string>
+    <string name="error">Error</string>
+    <string name="invalid_election_request">The selected Election does not have valid parameters. Please try another election.</string>
+    <string name="progress_bar_content_description">Progress bar icon</string>
 
-    <!-- TODO: Add necessary string values -->
 
 </resources>

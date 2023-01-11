@@ -4,16 +4,15 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.election.WebViewActivity
+import com.example.android.politicalpreparedness.network.ApiStatus
 import com.example.android.politicalpreparedness.network.models.Election
+import com.example.android.politicalpreparedness.util.Constants.WEB_VIEW_URL
 
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Election>?) {
@@ -29,7 +28,7 @@ fun bindClickableText(textView: TextView, textUrl: String?) {
         return
     textView.setOnClickListener(View.OnClickListener {
         val intent = Intent(textView.context, WebViewActivity::class.java)
-        intent.putExtra("URL",textUrl)
+        intent.putExtra(WEB_VIEW_URL,textUrl)
         textView.context.startActivity(intent)
     })
 }
@@ -44,6 +43,18 @@ fun bindFollowButtonText(button: Button, isElectionSaved: Boolean?) {
         }
     } else {
         button.text = ""
+    }
+}
+
+@BindingAdapter("apiStatus")
+fun bindApiStatus(progressBar: ProgressBar, statusApi: ApiStatus?) {
+    when (statusApi) {
+        ApiStatus.LOADING -> {
+            progressBar.visibility = View.VISIBLE
+        }
+        else -> {
+            progressBar.visibility = View.GONE
+        }
     }
 }
 

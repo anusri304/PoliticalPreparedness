@@ -9,9 +9,31 @@
     </data>
     <!--  motion scene to hide form on vertical scroll. -->
     <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motionLayout"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         app:layoutDescription="@xml/fragment_representative_scene">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/representative_constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="@dimen/progress_bar"
+                android:layout_height="@dimen/progress_bar"
+                app:apiStatus="@{viewModel.status}"
+                android:contentDescription="@string/progress_bar_content_description"
+                android:indeterminateDrawable="@drawable/loading_animation"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/search_title"
@@ -74,6 +96,7 @@
             android:inputType="number"
             android:maxLength="5"
             android:text="@={viewModel.address.zip}"
+            app:layout_constraintEnd_toEndOf="@id/city"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/city" />
 
@@ -97,22 +120,27 @@
             android:layout_marginTop="@dimen/default_margin"
             android:text="@string/use_my_location_text"
             app:layout_constraintTop_toBottomOf="@id/button_search" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/txtview_representative_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:textSize="@dimen/big_text_size"
-            android:layout_marginTop="@dimen/margin_12"
+            android:padding="@dimen/margin_8"
             style="@style/txtView_bold"
+            android:paddingBottom="@dimen/default_padding"
             android:text="@string/my_representatives"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_location" />
+            app:layout_constraintTop_toBottomOf="@id/representative_constraint_layout" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerRepresentative"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height= "0dp"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:paddingBottom="@dimen/default_padding"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

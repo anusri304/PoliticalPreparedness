@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.politicalpreparedness.databinding.RepresentativeListBinding
 import com.example.android.politicalpreparedness.network.models.Channel
 import com.example.android.politicalpreparedness.representative.model.Representative
+import com.example.android.politicalpreparedness.util.Constants.FACEBOOK_CHANNEL
+import com.example.android.politicalpreparedness.util.Constants.FACEBOOK_URL
+import com.example.android.politicalpreparedness.util.Constants.TWITTER_CHANNEL
+import com.example.android.politicalpreparedness.util.Constants.TWITTER_URL
 
 class RepresentativeListAdapter: ListAdapter<Representative, RepresentativeListAdapter.RepresentativeViewHolder>( RepresentativeDiffCallback)
 {
@@ -68,14 +72,14 @@ class RepresentativeViewHolder(val binding: RepresentativeListBinding): Recycler
     }
 
     private fun getFacebookUrl(channels: List<Channel>?): String? {
-        return channels?.filter { channel -> channel.type == "Facebook" }
-            ?.map { channel -> "https://www.facebook.com/${channel.id}" }
+        return channels?.filter { channel -> channel.type == FACEBOOK_CHANNEL }
+            ?.map { channel -> FACEBOOK_URL.plus("${channel.id}") }
             ?.firstOrNull()
     }
 
     private fun getTwitterUrl(channels: List<Channel>?): String? {
-        return channels?.filter { channel -> channel.type == "Twitter" }
-            ?.map { channel -> "https://www.twitter.com/${channel.id}" }
+        return channels?.filter { channel -> channel.type == TWITTER_CHANNEL }
+            ?.map { channel -> TWITTER_URL.plus("${channel.id}") }
             ?.firstOrNull()
     }
 

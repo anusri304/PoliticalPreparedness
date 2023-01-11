@@ -6,8 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
+import com.example.android.politicalpreparedness.network.ApiStatus
+import com.google.android.material.snackbar.Snackbar
 
 class VoterInfoFragment : Fragment() {
 
@@ -38,8 +42,22 @@ class VoterInfoFragment : Fragment() {
         val arguments = VoterInfoFragmentArgs.fromBundle(requireArguments())
         viewModel.displayVoterInfo(arguments.selectedElection)
 
+        viewModel.status.observe(viewLifecycleOwner, Observer<ApiStatus> { apiStatus ->
+            when(apiStatus) {
+                ApiStatus.ERROR -> {
+                    Snackbar.make(requireView(), R.string.error_voter_info, Snackbar.LENGTH_LONG).show()
+                }
+                else -> {}
+            }
+        })
+
         return binding.root
 
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.showSnackBar.observe(viewLifecycleOwner) {
+            Snackbar.make(requireView(), it, Snackbar.LENGTH_LONG).show()
+        }
     }
 
 
