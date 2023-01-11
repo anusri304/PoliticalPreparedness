@@ -44,14 +44,14 @@ class RepresentativeViewModel(val app: Application, val savedStateHandle: SavedS
     val status: LiveData<ApiStatus>
         get() = _status
 
-    private val savedStateAddressObserver = Observer<Address> {
+    private val addressObserver = Observer<Address> {
         address.value = it
         getRepresentatives()
     }
 
     init {
         _states.value = app.resources.getStringArray(R.array.states).toList()
-        savedStateHandle.getLiveData<Address>("address").observeForever(savedStateAddressObserver)
+        savedStateHandle.getLiveData<Address>("address").observeForever(addressObserver)
     }
 
     // Create function to fetch representatives from API from a provided address
@@ -90,7 +90,7 @@ class RepresentativeViewModel(val app: Application, val savedStateHandle: SavedS
     }
     override fun onCleared() {
         super.onCleared()
-        savedStateHandle.getLiveData<Address>("address").removeObserver(savedStateAddressObserver)
+        savedStateHandle.getLiveData<Address>("address").removeObserver(addressObserver)
     }
 
 }
