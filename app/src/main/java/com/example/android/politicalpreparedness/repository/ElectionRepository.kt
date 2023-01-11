@@ -31,6 +31,7 @@ class ElectionRepository(
                 Timber.i("elections" + elections)
             }
             else {
+                Timber.i("No internet connection trying to fetch from database" + elections)
                 withContext(Dispatchers.IO) {
                     elections = database.getAll()
                 }
