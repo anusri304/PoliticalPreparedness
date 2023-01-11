@@ -1,8 +1,6 @@
 package com.example.android.politicalpreparedness.election
 
 import android.app.Application
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +14,7 @@ import com.example.android.politicalpreparedness.network.models.VoterInfo
 import com.example.android.politicalpreparedness.repository.ElectionRepository
 import com.example.android.politicalpreparedness.repository.VoterInfoRepository
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class VoterInfoViewModel(val application: Application) : ViewModel() {
     private val database = ElectionDatabase.getInstance(application)
@@ -67,6 +66,7 @@ class VoterInfoViewModel(val application: Application) : ViewModel() {
                 _status.value = ApiStatus.DONE
             }
             catch (e: Exception) {
+                Timber.e(application.getString(R.string.error_voter_info)+e.stackTrace)
                 _status.value = ApiStatus.ERROR
             }
 
@@ -88,7 +88,7 @@ class VoterInfoViewModel(val application: Application) : ViewModel() {
                     loadVoterInfo(election.id)
                 }
             } catch (e: Exception) {
-                e.stackTrace
+                Timber.e(application.getString(R.string.error_voter_info)+e.stackTrace)
             }
         }
     }
@@ -122,7 +122,7 @@ class VoterInfoViewModel(val application: Application) : ViewModel() {
                 _isElectionFollowed.postValue(existingElection?.isFollowed)
 
             } catch (e: Exception) {
-                e.printStackTrace()
+                Timber.e(application.getString(R.string.error_retrive_election_database))
             }
         }
 

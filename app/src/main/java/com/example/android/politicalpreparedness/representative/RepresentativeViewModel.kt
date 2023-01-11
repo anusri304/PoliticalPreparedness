@@ -12,6 +12,7 @@ import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.repository.RepresentativeRepository
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class RepresentativeViewModel(val app:Application): ViewModel() {
 
@@ -52,7 +53,7 @@ class RepresentativeViewModel(val app:Application): ViewModel() {
                 _status.value = ApiStatus.DONE
             }
             catch(e:Exception) {
-               e.stackTrace
+                Timber.e(app.getString(R.string.error_representatives)+e.stackTrace)
                 _status.value = ApiStatus.ERROR
                 showSnackBar.value = app.getString(R.string.address_not_found)
             }

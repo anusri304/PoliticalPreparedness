@@ -6,6 +6,7 @@ import com.example.android.politicalpreparedness.network.models.VoterInfo
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class VoterInfoRepository( private val civicApi: CivicsApi, private val database: ElectionDatabase) {
 
@@ -17,7 +18,8 @@ class VoterInfoRepository( private val civicApi: CivicsApi, private val database
                 convertToVoterInfo(id,response)?.let { database.insertVoterInfo(it) }
             }
             catch (e:Exception){
-                e.stackTrace
+                Timber.e("Error in getting voter info" +  e.stackTrace)
+
             }
         }
     }

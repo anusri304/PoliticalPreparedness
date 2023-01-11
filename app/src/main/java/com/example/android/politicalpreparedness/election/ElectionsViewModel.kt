@@ -5,12 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.database.ElectionDatabase.Companion.getInstance
 import com.example.android.politicalpreparedness.network.ApiStatus
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.repository.ElectionRepository
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class ElectionsViewModel(application: Application) : ViewModel() {
 
@@ -43,10 +45,10 @@ class ElectionsViewModel(application: Application) : ViewModel() {
                 //LiveData to hold the list of elections from the API
                 _status.value = ApiStatus.LOADING
                 _upcomingElections.value = electionRepository.getElections()
-                println("  _upcomingElections.value" + _upcomingElections.value!!.size)
+                Timber.i("  _upcomingElections.value" + _upcomingElections.value!!.size)
                 _status.value = ApiStatus.DONE
             } catch (e: Exception) {
-                e.stackTrace
+                Timber.e(application.getString(R.string.error_elections)+e.stackTrace)
                 _status.value = ApiStatus.ERROR
             }
         }

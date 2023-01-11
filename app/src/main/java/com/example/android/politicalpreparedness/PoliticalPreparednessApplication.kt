@@ -26,6 +26,7 @@ import com.example.android.politicalpreparedness.work.ElectionWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * Override application to setup background work via WorkManager
@@ -64,5 +65,6 @@ class PoliticalPreparednessApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         delayedInit()
+        Timber.plant(Timber.DebugTree())
     }
 }

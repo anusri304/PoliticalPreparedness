@@ -18,13 +18,14 @@
 package com.example.android.politicalpreparedness.work
 
 import android.content.Context
-import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.database.ElectionDatabase.Companion.getInstance
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.repository.ElectionRepository
 import retrofit2.HttpException
+import timber.log.Timber
 
 class ElectionWorker(appContext: Context, params: WorkerParameters):
         CoroutineWorker(appContext, params) {
@@ -43,11 +44,12 @@ class ElectionWorker(appContext: Context, params: WorkerParameters):
         val database = getInstance(applicationContext)
         val repository = ElectionRepository(CivicsApi, database, applicationContext)
         return try {
-            Log.i(TAG,"doWork invoked Successfully")
+            Timber.i(TAG,"doWork invoked Successfully")
             repository.insertElections()
-            Log.i(TAG,"Inserted Elections Successfully")
+            Timber.i(TAG,"Inserted Elections Successfully")
             Result.success()
         } catch (e: HttpException) {
+            Timber.e(applicationContext.getString(R.string.error_worker))
             Result.retry()
         }
     }

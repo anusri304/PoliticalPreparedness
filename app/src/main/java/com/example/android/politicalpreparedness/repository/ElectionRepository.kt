@@ -9,6 +9,7 @@ import com.example.android.politicalpreparedness.network.models.asDatabaseModel
 import com.example.android.politicalpreparedness.util.Util.Companion.isNetworkAvailable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class ElectionRepository(
     private val civicApi: CivicsApi,
@@ -27,7 +28,7 @@ class ElectionRepository(
                 for(election in elections){
                     election.isFollowed = false
                 }
-                println("elections" + elections)
+                Timber.i("elections" + elections)
             }
             else {
                 withContext(Dispatchers.IO) {
@@ -36,7 +37,7 @@ class ElectionRepository(
             }
         }
         catch(e:Exception) {
-            e.stackTrace
+           Timber.e(e.stackTrace.toString())
         }
         return elections
     }

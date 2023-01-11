@@ -39,6 +39,9 @@
     <string name="error">Error</string>
     <string name="invalid_election_request">The selected Election does not have valid parameters. Please try another election.</string>
     <string name="progress_bar_content_description">Progress bar icon</string>
+    <string name="error_restore">error in restoring saved instance state</string>
+    <string name="error_retrive_election_database">error retrieving election from database</string>
+    <string name="error_worker">error in election worker while inserting elections</string>
 
 
 </resources>

@@ -1,7 +1,6 @@
 package com.example.android.politicalpreparedness.election.adapter
 
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -13,6 +12,7 @@ import com.example.android.politicalpreparedness.election.WebViewActivity
 import com.example.android.politicalpreparedness.network.ApiStatus
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.util.Constants.WEB_VIEW_URL
+import timber.log.Timber
 
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Election>?) {
@@ -22,7 +22,7 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Election>?) {
 
 @BindingAdapter("clickableText")
 fun bindClickableText(textView: TextView, textUrl: String?) {
-    Log.i("BindingAdapter-clickableText",
+    Timber.i("BindingAdapter-clickableText"+
         "TextView:${textView.id} AND textURL:${textUrl}")
     if (textUrl.isNullOrEmpty())
         return

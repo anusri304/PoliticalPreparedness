@@ -12,7 +12,6 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
@@ -33,6 +32,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 import java.util.*
 
 class RepresentativesFragment : Fragment() {
@@ -88,6 +88,7 @@ class RepresentativesFragment : Fragment() {
                             binding.motionLayout.transitionToState(motionStat)
                         }
                     } catch (e: Exception) {
+                        Timber.e(getString(R.string.error_restore))
                     }
                 }
             }
@@ -175,10 +176,8 @@ class RepresentativesFragment : Fragment() {
                         REQUEST_TURN_DEVICE_LOCATION_ON, null, 0, 0, 0, null
                     )
                 } catch (sendEx: IntentSender.SendIntentException) {
-                    Log.d(
-                        TAG,
-                        "Error getting location settings resolution: " + sendEx.message
-                    )
+                    Timber.e("Error getting location settings resolution: " + sendEx.message)
+
                 }
             } else {
                 Snackbar.make(
