@@ -16,9 +16,14 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.R
+import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
+import com.example.android.politicalpreparedness.election.ElectionsViewModel
+import com.example.android.politicalpreparedness.election.ElectionsViewModelFactory
 import com.example.android.politicalpreparedness.election.RepresentativeViewModelFactory
 import com.example.android.politicalpreparedness.network.ApiStatus
 import com.example.android.politicalpreparedness.network.models.Address
@@ -38,16 +43,19 @@ import java.util.*
 class RepresentativesFragment : Fragment() {
     private lateinit var binding: FragmentRepresentativeBinding
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private val viewModel: RepresentativeViewModel by lazy {
-        val activity = requireNotNull(this.activity) {
-            "You can only access the viewModel after onViewCreated()"
-        }
-        // ViewModelProvider(this).get(MainViewModel::class.java)
-        ViewModelProvider(this, RepresentativeViewModelFactory(activity.application)).get(
-            RepresentativeViewModel::class.java
-        )
-    }
 
+    lateinit var viewModel: RepresentativeViewModel
+
+//    private val viewModel: RepresentativeViewModel by lazy {
+//        val activity = requireNotNull(this.activity) {
+//            "You can only access the viewModel after onViewCreated()"
+//        }
+//        // ViewModelProvider(this).get(MainViewModel::class.java)
+//        ViewModelProvider(this, RepresentativeViewModelFactory(activity.application)).get(
+//            RepresentativeViewModel::class.java)
+//
+//
+//    }
     companion object {
         // Constant for Location request
         private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
@@ -65,6 +73,11 @@ class RepresentativesFragment : Fragment() {
         // Establish bindings
         binding = FragmentRepresentativeBinding.inflate(inflater)
         binding.lifecycleOwner = this
+
+        val viewModelFactory = activity?.application?.let { RepresentativeViewModelFactory(it, savedStateHandle = SavedStateHandle()) }
+
+        viewModel = ViewModelProvider(this, viewModelFactory!!)[RepresentativeViewModel::class.java]
+
         binding.viewModel = viewModel
 
         fusedLocationProviderClient =
@@ -307,8 +320,9 @@ class RepresentativesFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable("address",binding.viewModel?._address?.value)
+        outState.putParcelable("address",binding.viewModel?.address?.value)
         outState.putInt("motion_stat",binding.motionLayout.currentState)
+        binding.viewModel?.address?.value?.let { viewModel.setAddress(it) }
     }
 
 }
