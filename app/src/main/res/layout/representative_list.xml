@@ -15,8 +15,8 @@
         <ImageView
             android:id="@+id/profilePicImage"
             android:contentDescription="@string/rep_pic"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="@dimen/profile_pic"
+            android:layout_height="@dimen/profile_pic"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/default_margin"
             android:adjustViewBounds="true"
@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/textViewOfficeName"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/margin_0"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/margin_8"
@@ -47,7 +47,7 @@
 
         <TextView
             android:id="@+id/textViewOfficialParty"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/margin_0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_8"
             android:text="@{representative.official.party}"

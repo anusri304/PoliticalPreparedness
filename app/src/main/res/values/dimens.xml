@@ -13,6 +13,10 @@
     <dimen name="margin_12">12dp</dimen>
     <dimen name="margin_9">9dp</dimen>
     <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_0">0dp</dimen>
+    <dimen name="profile_pic">70dp</dimen>
+    <dimen name="election_horizontal_bias">0.52</dimen>
+    <dimen name="election_vertical_bias">0.04000002</dimen>
     <dimen name="margin_18">18dp</dimen>
     <dimen name="padding_10">10dp</dimen>
     <dimen name="padding_8">8dp</dimen>

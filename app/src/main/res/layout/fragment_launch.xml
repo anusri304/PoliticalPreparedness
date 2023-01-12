@@ -12,19 +12,19 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_0"
             android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_8"
             android:layout_marginEnd="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
             android:contentDescription="@string/ballot_logo"
             app:layout_constraintBottom_toTopOf="@+id/upcomingElectionsBtn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintHorizontal_bias="@dimen/election_horizontal_bias"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.04000002"
+            app:layout_constraintVertical_bias="@dimen/election_vertical_bias"
             app:srcCompat="@drawable/ballot_logo" />
 
         <!--  Add Button to navigate to upcoming elections. -->
@@ -35,7 +35,7 @@
         <Button
             android:id="@+id/upcomingElectionsBtn"
             style="@style/launchStyle"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/margin_0"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
@@ -49,14 +49,13 @@
         <Button
             android:id="@+id/findMyRepBtn"
             style="@style/launchStyle"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/margin_0"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
             android:text="@string/strFindMyRep"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
           />
